@@ -1,8 +1,8 @@
-using Data.Models;
+using CarDealership.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Data.Configuration;
+namespace CarDealership.Data.Configuration;
 
 public class ClientConfiguration : IEntityTypeConfiguration<Client>
 {

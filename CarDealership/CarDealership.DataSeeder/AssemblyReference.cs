@@ -1,4 +1,4 @@
-namespace CarDealershipSeeder;
+namespace CarDealership.DataSeeder;
 
 public class AssemblyReference
 {

@@ -1,7 +1,7 @@
 using Bogus;
-using Data.Models;
+using CarDealership.Data.Models;
 
-namespace CarDealershipSeeder;
+namespace CarDealership.DataSeeder;
 
 public static class Seeder
 {
@@ -57,7 +57,8 @@ public static class Seeder
                 ClientId = faker.PickRandom(clients).Id,
                 StoreId = faker.PickRandom(stores).Id,
                 CarId = faker.PickRandom(cars).Id,
-                PurchasePrice = Math.Round((decimal)faker.Random.Double(20000, 100000), 2)
+                PurchasePrice = Math.Round((decimal)faker.Random.Double(20000, 100000), 2),
+                OrderDate = faker.Date.Past(1)
             })
             .ToList();
         

@@ -1,4 +1,4 @@
-namespace Data.Models;
+namespace CarDealership.Data.Models;
 
 public class Order
 {
@@ -14,4 +14,6 @@ public class Order
     public Car Car { get; set; }
     
     public decimal PurchasePrice { get; set; }
+
+    public DateTime OrderDate { get; set; }
 }

@@ -1,4 +1,4 @@
-namespace Data.Models;
+namespace CarDealership.Data.Models;
 
 public class Car
 {

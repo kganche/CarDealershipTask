@@ -1,7 +1,7 @@
-using Data.Models;
+using CarDealership.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data;
+namespace CarDealership.Data;
 
 public class CarDealershipDbContext(DbContextOptions<CarDealershipDbContext> options) : DbContext(options)
 {

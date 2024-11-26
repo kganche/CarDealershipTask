@@ -1,8 +1,8 @@
-using Data;
+using CarDealership.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace CarDealershipSeeder;
+namespace CarDealership.DataSeeder;
 
 public static class DbContextProvider
 {
