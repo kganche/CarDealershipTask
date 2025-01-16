@@ -1,33 +1,26 @@
-CREATE DATABASE CarDealership;
-GO
+CREATE TRIGGER trg_AuditBankAccount
+ON BankAccount
+FOR UPDATE
+AS
+BEGIN
+    DECLARE @Id INT, @OldBalance DECIMAL(18, 2), @NewBalance DECIMAL(18, 2), 
+            @OldLockedBalance DECIMAL(18, 2), @NewLockedBalance DECIMAL(18, 2);
 
-USE CarDealership;
-GO
+    SELECT @Id = INSERTED.Id, 
+           @OldBalance = DELETED.Balance, @NewBalance = INSERTED.Balance,
+           @OldLockedBalance = DELETED.LockedBalance, @NewLockedBalance = INSERTED.LockedBalance
+    FROM INSERTED
+    INNER JOIN DELETED ON INSERTED.Id = DELETED.Id;
 
-CREATE TABLE Client (
-    Id INT PRIMARY KEY,
-    FirstName NVARCHAR(50) NOT NULL,
-    LastName NVARCHAR(50) NOT NULL
-);
+    IF @OldBalance <> @NewBalance
+    BEGIN
+        INSERT INTO AuditLog (TableName, ColumnName, OldValue, NewValue)
+        VALUES ('BankAccount', 'Balance', CAST(@OldBalance AS NVARCHAR(256)), CAST(@NewBalance AS NVARCHAR(256)));
+    END
 
-CREATE TABLE Store (
-    Id INT PRIMARY KEY,
-    Name NVARCHAR(50) NOT NULL,
-    Address NVARCHAR(255) NOT NULL,
-    City NVARCHAR(50) NOT NULL
-);
-
-CREATE TABLE Car (
-    Id INT PRIMARY KEY,
-    Manufacturer NVARCHAR(50) NOT NULL,
-    Model NVARCHAR(50) NOT NULL,
-    Price MONEY NOT NULL
-);
-
-CREATE TABLE [Order] (
-    Id INT PRIMARY KEY,
-    ClientId INT NOT NULL FOREIGN KEY REFERENCES Client(Id),
-    StoreId INT NOT NULL FOREIGN KEY REFERENCES Store(Id),
-    CarId INT NOT NULL FOREIGN KEY REFERENCES Car(Id),
-    PurchasePrice MONEY NOT NULL
-);
+    IF @OldLockedBalance <> @NewLockedBalance
+    BEGIN
+        INSERT INTO AuditLog (TableName, ColumnName, OldValue, NewValue)
+        VALUES ('BankAccount', 'LockedBalance', CAST(@OldLockedBalance AS NVARCHAR(256)), CAST(@NewLockedBalance AS NVARCHAR(256)));
+    END
+END;
